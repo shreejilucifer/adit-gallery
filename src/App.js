@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import AlbumsList from './Components/AlbumsList';
+import AlbumPhotos from './Components/AlbumPhotos';
+
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class App extends Component {
+
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      return (
+        <Router basename={'/gallery'}>
+          <div style={{margin: "50px"}}>
+            <Route exact path="/" component={AlbumsList} />
+            <Route path="/:id/:name" component={AlbumPhotos} />
+          </div>
+        </Router>
+      );
+    }
   }
-}
 
 export default App;
