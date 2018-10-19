@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel';
+//import "react-responsive-carousel/lib/styles/carousel.min.css";
+//import { Carousel } from 'react-responsive-carousel';
+import Modal from 'react-responsive-modal';
 import './CSS/albums.css';
 
 /*class AlbumImage extends Component {
@@ -22,16 +23,9 @@ state = {
   albumId: null,
   loading: false,
   imageList: [],
-  open: false
+  selectedImageLink: null,
+  openModal: false
 }
-
-onOpenModal = () => {
-    this.setState({ open: true });
-  };
-
-onCloseModal = () => {
-    this.setState({ open: false });
-  };
 
   componentWillMount(){
     this.setState({
@@ -43,7 +37,7 @@ onCloseModal = () => {
       "url": "https://api.imgur.com/3/album/" + this.props.match.params.id + "/images",
       "method": "GET",
       "headers": {
-        "Authorization": "Client-ID f8cc7ecefef0b50",
+        "Authorization": "Client-ID f8cc7ecefef0b50", // To Change to ADIT Account Key
       }
     }
 
@@ -59,6 +53,21 @@ onCloseModal = () => {
     .catch((err)=>{
       console.log(err);
     })
+  }
+
+  renderImages = (id, link) => {
+    return(
+      <div className="album-container" onClick={()=>{
+        this.setState({
+          selectedImageLink: link,
+          openModal: true
+        });
+      }}>
+        <div className="album-cover-container">
+          <img height="100%" width="100%" src={link} alt={id} />
+        </div>
+      </div>
+    )
   }
 
   render() {
@@ -81,18 +90,28 @@ onCloseModal = () => {
         <div>
           <h1 style={{textAlign: "center"}}>{this.props.match.params.name}</h1>
         </div>
-        <div>
-          <Carousel dynamicHeight={true}>
-            {
-              this.state.imageList.map((x)=>{
+        <div className="album-grid">
+          {
+            this.state.imageList.map(
+              (x)=>{
                 return (
                   <div key={x.id}>
-                    <img src={x.link} alt={x.id}/>
+                    {this.renderImages(x.id, x.link)}
                   </div>
                 )
-              })
-            }
-          </Carousel>
+              }
+            )
+          }
+        </div>
+        <div>
+          <Modal open={this.state.openModal} onClose={()=>{
+            this.setState({
+              selectedImageLink: null,
+              openModal: false
+            })
+          }} center>
+            <img src={this.state.selectedImageLink} height="100%" width="100%" alt="adit"/>
+          </Modal>
         </div>
       </div>
 
@@ -102,6 +121,24 @@ onCloseModal = () => {
 
 export default AlbumPhotos;
 
+// Carousel
+/*
+<div>
+  <Carousel dynamicHeight={true}>
+    {
+      this.state.imageList.map((x)=>{
+        return (
+          <div key={x.id}>
+            <img src={x.link} alt={x.id}/>
+          </div>
+        )
+      })
+    }
+  </Carousel>
+</div>
+*/
+
+// Grid Older
 /* <div className="album-grid">
   {
     this.state.imageList.map((x)=>{

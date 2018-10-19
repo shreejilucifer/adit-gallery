@@ -40,7 +40,7 @@ class AlbumsList extends Component {
       "url": "https://api.imgur.com/3/account/shreejilucifer/albums",
       "method": "GET",
       "headers": {
-        "Authorization": "Client-ID f8cc7ecefef0b50",
+        "Authorization": "Client-ID f8cc7ecefef0b50", // To Change to ADIT Account Key
       }
     }
 
